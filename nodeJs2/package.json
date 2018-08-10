@@ -1,0 +1,14 @@
+{
+  "name": "nodejs2",
+  "version": "1.0.0",
+  "description": "Simple weather app teste",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "daniel machado",
+  "license": "ISC",
+  "dependencies": {
+    "npm": "^6.3.0"
+  }
+}

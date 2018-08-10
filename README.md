@@ -10,6 +10,8 @@
   * `application/x-www-form-urlencoded`
   * `multipart/form-data`
 
+Vamos fazer com que o dialogflow funcione como um filtro (*capturando a intenção*). Que a mesma podemos fazer um webhock. 
+
 
 #### @Ferramentas
 

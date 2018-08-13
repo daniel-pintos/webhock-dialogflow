@@ -3,19 +3,19 @@ var mongoose = require('mongoose');
 var TeamInfo = mongoose.model('TeamInfo');
 var GameSchedule = mongoose.model('GameSchedule');
 
-exports.processRequest = function(req, res) {
+exports.processRequest = function (req, res) {
+  console.log(req);
   if (req.body.result.action == "schedule") {
     getTeamSchedule(req, res)
-  } else if (req.body.result.action == "tell.about") {
+  }
+  else if (req.body.result.action == "tell.about") {
     getTeamInfo(req, res)
   }
 };
 
 function getTeamInfo(req, res) {
   let teamToSearch = req.body.result && req.body.result.parameters && req.body.result.parameters.team ? req.body.result.parameters.team : 'Unknown';
-  TeamInfo.findOne({
-    name: teamToSearch
-  }, function(err, teamExists) {
+  TeamInfo.findOne({ name: teamToSearch }, function (err, teamExists) {
     if (err) {
       return res.json({
         speech: 'Something went wrong!',
@@ -29,7 +29,8 @@ function getTeamInfo(req, res) {
         displayText: teamExists.description,
         source: 'team info'
       });
-    } else {
+    }
+    else {
       return res.json({
         speech: 'Currently I am not having information about this team',
         displayText: 'Currently I am not having information about this team',
@@ -46,9 +47,7 @@ function getTeamSchedule(req, res) {
     let team = parameters.team;
     if (game_occurence == "previous") {
       //previous game
-      GameSchedule.find({
-        opponent: team
-      }, function(err, games) {
+      GameSchedule.find({ opponent: team }, function (err, games) {
         if (err) {
           return res.json({
             speech: 'Something went wrong!',
@@ -68,7 +67,8 @@ function getTeamSchedule(req, res) {
                 var winningStatement = "";
                 if (requiredGame.isWinner) {
                   winningStatement = "Kings won this match by " + requiredGame.score;
-                } else {
+                }
+                else {
                   winningStatement = "Kings lost this match by " + requiredGame.score;
                 }
                 return res.json({
@@ -77,7 +77,8 @@ function getTeamSchedule(req, res) {
                   source: 'game schedule'
                 });
                 break;
-              } else {
+              }
+              else {
                 return res.json({
                   speech: 'Cant find any previous game played between Kings and ' + parameters.team,
                   displayText: 'Cant find any previous game played between Kings and ' + parameters.team,
@@ -88,14 +89,16 @@ function getTeamSchedule(req, res) {
           }
         }
       });
-    } else {
+    }
+    else {
       return res.json({
         speech: 'Next game schedules will be available soon',
         displayText: 'Next game schedules will be available soon',
         source: 'game schedule'
       });
     }
-  } else {
+  }
+  else {
     return res.json({
       speech: 'Cant handle the queries with two teams now. I will update myself',
       displayText: 'Cant handle the queries with two teams now. I will update myself',

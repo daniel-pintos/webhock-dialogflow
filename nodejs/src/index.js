@@ -1,22 +1,3 @@
-// 'use strict';
-//
-// const express = require('express');
-// const bodyParser = require('body-parser');
-// const app = express();
-// const router = express.Router();
-//
-// // load routes
-// const indexRoute = require('./routes/index');
-//
-//
-// app.use(bodyParser.json());
-// app.use(bodyParser.urlencoded({ extended: false}));
-//
-// // IDEA: Recursos
-// app.use('/',indexRoute);
-//
-// module.exports = app;
-
 'use strict';
 var express = require('express'),
   bodyParser = require('body-parser'),
@@ -24,18 +5,30 @@ var express = require('express'),
   config = require('./config'),
   server = express(),
   mongoose = require('mongoose'),
-  TeamInfo = require('./Models/TeamInfo'), // criado modelo carregando aqui
-  GameSchedule = require('./Models/TeamInfo');
+  TeamInfo = require('./Models/TeamInfo'), //created model loading here
+  GameSchedule = require('./Models/GameSchedule');
 
-// conexão da instância do mongoose conexão do url
+const port = normalizePort(process.env.PORT || '3000');
+// mongoose instance connection url connection
 mongoose.Promise = global.Promise;
 mongoose.connect(config.dbUrl);
-server.use(bodyParser.urlencoded({
-  extended: true
-}));
+server.use(bodyParser.urlencoded({ extended: true }));
 server.use(bodyParser.json());
-var routes = require('./routes/index'); // importando
-routes(server); // registra a rota
-server.listen((process.env.PORT || 8000), function() {
-  console.log("O servidor está ativo e atendendo na porta" + process.env.PORT);
+var routes = require('./Routes/Routes'); //importing route
+routes(server); //register the route
+server.listen((port), function () {
+  console.log("Server is up and listening on port: [" + port + "]");
 });
+
+function normalizePort(val) {
+  const port = parseInt(val, 10);
+  if (isNaN(port)) {
+    return val;
+  }
+
+  if (port >= 0) {
+    return port;
+  }
+
+  return false;
+}
